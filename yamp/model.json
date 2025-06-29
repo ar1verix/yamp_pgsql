@@ -1,0 +1,233 @@
+  {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Модель для шаблона разбора текстового сообщения.",
+  "type": "object",
+  "properties": {
+    "ModelId": {
+      "type": "integer",
+      "description": "Идентификатор модели."
+    },
+    "TemplateId": {
+      "type": "integer",
+      "description": "Идентификатор шаблона, к которому относится модель (FK на Template)."
+    },
+    "ModelName": {
+      "type": "string",
+      "description": "Название модели.",
+      "maxLength": 50
+    },
+    "IsDefault": {
+      "type": "boolean",
+      "default": false,
+      "description": "Модель по-умолчанию."
+    },
+    "LineLen": {
+      "type": "integer",
+      "default": 0,
+      "description": "Максимальное количество символов в одной строке модели."
+    },
+    "QuoteLen": {
+      "type": "integer",
+      "default": 0,
+      "description": "Максимальное количество символов из цитируемого сообщения."
+    },
+    "TotalLines": {
+      "type": "integer",
+      "default": 0,
+      "description": "Максимально количество строк в сообщении."
+    },
+     "TotalLen": {
+      "type": "integer",
+      "default": 0,
+      "description": "Максимально количество символов в сообщении."
+    },
+    "TotalExceededAction": {
+      "type": "integer",
+      "default": 0,
+      "enum": [0, 1, 2],
+      "description": "Действие при превышении количества строк и символов (0 = обрезать, 1 = разделить, 2 = не отправлять)."
+    },
+    "ForceCaps": {
+      "type": "boolean",
+      "default": false,
+      "description": "Сообщение полностью заглавными буквами."
+    },
+    "IncludeCRC": {
+      "type": "integer",
+      "default": 0,
+      "enum": [0, 1, 2, 3],
+      "description": "Опция расчета CRC (0 = CRC отсутствует, 1 = Автоматическое определение, 2 = Двоичный код (спецификация 822), 3 = Символьный код (спецификация CCITT))."
+    },
+    "MultipartHeader": {
+      "type": ["string", "null"],
+      "maxLength": 256,
+      "description": "Стандартный текст для заголовка сообщения."
+    },
+    "MultipartFooter": {
+      "type": ["string", "null"],
+      "maxLength": 256,
+      "description": "Стандартный текст для футера сообщения."
+    },
+    "EFBConvertToXML": {
+      "type": "boolean",
+      "default": false,
+      "description": ""
+    },
+    "ModelDescription": {
+      "type": ["string", "null"],
+      "description": "Описание модели."
+    },
+    "Fields": {
+      "type": "array",
+      "minItems": 0,
+      "description": "Поля.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ModelFieldId": {
+            "type": "integer",
+            "description": "Идентификатор поля."
+          },
+          "ModelId": {
+            "type": "integer",
+            "default": 0,
+            "description": "Идентификатор модели, к которому относится поле (FK на Model)."
+          },
+          "TemplateFieldId": {
+            "type": ["integer", "null"],
+            "description": "Идентификатор поля шаблона, к которому относится поле модели (FK на TemplateField)."
+          },
+          "DataFormatId": {
+            "type": ["integer", "null"],
+            "description": "Формат поля (FK на DataFormat)."
+          },
+          "Alignment": {
+            "type": "integer",
+            "default": 0,
+            "enum": [0, 1],
+            "description": "Тип выравнивания поля (0 = по левому краю, 1 = по правому краю)."
+          },
+          "DecSeparator": {
+            "type": "string",
+            "maxLength": 1,
+            "default": ".",
+            "description": "Разделитель целой и дробной части числа."
+          },
+          "NbCharBeforeSep": {
+            "type": "integer",
+            "default": 0,
+            "description": "Максимальное число символов до разделителя или всей строки (если нет разделителя)."
+          },
+          "NbCharAfterSep": {
+            "type": "integer",
+            "default": 0,
+            "description": "Максимальное число символов после разделителя."
+          },
+          "UseLookup": {
+            "type": "boolean",
+            "default": false,
+            "description": "Использование таблицы подстановки."
+          },
+          "LookupTableId": {
+            "type": ["integer", "null"],
+            "description": "Таблица подстановки (FK на LookupTable)."
+          },
+          "InvertBit": {
+            "type": "boolean",
+            "default": false,
+            "description": "Инвертировать значения типа Вкл/Выкл."
+          },
+          "Operand": {
+            "type": "number",
+            "default": 0.0,
+            "description": "Значение, которое используется в линейной функции."
+          },
+          "Operator": {
+            "type": ["string", "null"],
+            "maxLength": 1,
+            "description": "Символ линейной функции (+, -, *, /)."
+          },
+          "FieldTypeId": {
+            "type": ["integer", "null"],
+            "default": 0,
+            "description": "Тип поля (FK на FieldType)."
+          },
+          "Replacement": {
+            "type": "array",
+            "minItems": 0,
+            "description": "Поля простой замены.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "SubstringReplaceId": {
+                  "type": "integer",
+                  "description": "Идентификатор поля простой замены."
+                },
+                "Context": {
+                  "type": "integer",
+                  "default": 0,
+                  "enum": [0],
+                  "description": "Сущность замены (0 - ModelField)."
+                },
+                "RefId": {
+                  "type": "integer",
+                  "description": "Идентификатор поля модели (FK на ModelField)."
+                },
+                "FromStr": {
+                  "type": ["string", "null"],
+                  "description": "Строка, которую заменяем."
+                },
+                "ToStr": {
+                  "type": ["string", "null"],
+                  "description": "Строка, на которую заменяем."
+                },
+                "RowOrder": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "IsRegex": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": ""
+                }
+              },
+              "required": [
+                "SubstringReplaceId",
+                "Context",
+                "RefId",
+                "FromStr",
+                "ToStr",
+                "RowOrder",
+                "IsRegex"
+              ]
+            }
+          }
+        },
+        "required": [
+          "ModelFieldId",
+          "ModelId",
+          "Alignment",
+          "DecSeparator",
+          "NbCharBeforeSep",
+          "NbCharAfterSep",
+          "UseLookup",
+          "InvertBit",
+          "Operand"
+        ]
+      }
+    }
+  },
+  "required": [
+    "ModelId",
+    "TemplateId",
+    "IsDefault",
+    "LineLen",
+    "QuoteLen",
+    "TotalLines",
+    "TotalLen",
+    "TotalExceededAction",
+    "ForceCaps",
+    "IncludeCRC",
+    "EFBConvertToXML"
+  ]
+}

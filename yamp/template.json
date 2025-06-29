@@ -1,0 +1,518 @@
+  {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Шаблон для текстового сообщений.",
+  "type": "object",
+  "properties": {
+    "TemplateId": {
+      "type": "integer",
+      "description": "Идентификатор шаблона."
+    },
+    "MsgCategory": {
+      "type": "integer",
+      "default": 1,
+      "description": "Категория сообщений, для которых используется шаблон (FK на MsgCategory)."
+    },
+    "Source": {
+      "type": "integer",
+      "default": 0,
+      "enum": [0, 1, 2, 3],
+      "description": "Иcточник шаблона (0 = From Aircraft, 1 = From External User, 2 = From Local User, 3 = Computer-Generated)."
+    },
+    "Type": {
+      "type": "integer",
+      "default": 0,
+      "enum": [0, 1, 2],
+      "description": "Тип шаблона (0 = Downlink, 1 = Uplink, 2 = Ground)."
+    },
+    "TemplateName": {
+      "type": "string",
+      "description": "Название шаблона.",
+      "maxLength": 50
+    },
+    "Parent": {
+      "type": "integer",
+      "description": "Название родительской папки (FK на Folder).",
+      "default": 2
+    },
+    "Active": {
+      "type": "boolean",
+      "default": false,
+      "description": "Активен шаблон или нет."
+    },
+    "Specificity": {
+      "type": "integer",
+      "default": 0,
+      "description": "Спецификация сообщения."
+    },
+    "Owner": {
+      "type": "integer",
+      "default": 0,
+      "description": "Пользователь-владелец шаблона (FK на UserList)."
+    },
+    "MsgExample": {
+      "type": ["string", "null"],
+      "description": "Пример сообщения."
+    },
+    "Is620Format": {
+      "type": "boolean",
+      "default": false,
+      "description": "Формат AAEC620."
+    },
+    "AutoReplyTemplate": {
+      "type": "integer",
+      "default": 0,
+      "description": "Шаблон для автоответчика (FK на Template)."
+    },
+    "SMI": {
+      "type": ["string", "null"],
+      "minLength": 3,
+      "maxLength": 3,
+      "description": "SMI - Standard Message Identifier."
+    },
+    "SubSMI1": {
+      "type": ["string", "null"],
+      "maxLength": 2048,
+      "description": "SubSMI1."
+    },
+    "SubSMI2": {
+      "type": ["string", "null"],
+      "maxLength": 2048,
+      "description": "SubSMI2."
+    },
+    "SubSMI3": {
+      "type": ["string", "null"],
+      "maxLength": 2048,
+      "description": "SubSMI3."
+    },
+    "Priority": {
+      "type": "integer",
+      "default": 4,
+      "enum": [0, 1, 2, 3, 4],
+      "description": "Приоритет сообщения (имеет 5 уровней: 0 = P1 - High; 1 = P2 - Medium; 2 = P3 - Low; 3 = P4 - Note; 4 = P5 - Normal)"
+    },
+    "OOOIType": {
+      "type": "integer",
+      "default": 0,
+      "description": "Тип сообщения OOOI (FK на OOOIType)."
+    },
+    "AutoAck": {
+      "type": "boolean",
+      "default": false,
+      "description": "Автоматическое подтверждение."
+    },
+    "WaitHoldStageId": {
+      "type": "integer",
+      "default": 0,
+      "description": "Уровень ожидания (FK на OOOIType)."
+    },
+    "WaitHoldTime": {
+      "type": "integer",
+      "default": 0,
+      "description": "Время ожидания."
+    },
+    "Validity": {
+      "type": "integer",
+      "default": 0
+    },
+    "MaxWaitHoldTime": {
+      "type": "integer",
+      "default": 0,
+      "description": "Максимальное время ожидания."
+    },
+    "SendWaitingUplinks": {
+      "type": "boolean",
+      "default": false,
+      "description": "Отправка всех сообщений Uplink в зависимости от этапа полета или временных условий."
+    },
+    "TrimCrLf": {
+      "type": "boolean",
+      "default": false,
+      "description": "Обрезание символов CR + LF в конце сообщения."
+    },
+    "XMLMsgType": {
+      "type": ["string", "null"],
+      "maxLength": 32,
+      "description": "Тип XML-сообщения"
+    },
+    "XMLMsgSubType": {
+      "type": ["string", "null"],
+      "maxLength": 32,
+      "description": "Подтип XML-сообщения"
+    },
+    "StopHoldPeriod": {
+      "type": "boolean",
+      "default": false,
+      "description": "Сообщения, соответствующие этому шаблону, останавливают любой период Uplinks сообщений."
+    },
+    "StartHoldPeriod": {
+      "type": "boolean",
+      "default": false,
+      "description": "Получение сообщения, соответствующего этому шаблону, начинает период ожидания uplinks-сообщений."
+    },
+    "HoldPriority": {
+      "type": "integer",
+      "default": 4,
+      "description": "Уровень приоритета Uplink-сообщений, который останавливает поток Uplink."
+    },
+    "AllowMultiDistribToSameUser": {
+      "type": "boolean",
+      "default": false,
+      "description": "Возможность одновременно рассылать нескольких моделей одному и тому же пользователю."
+    },
+    "WaitHoldType": {
+      "type": "integer",
+      "default": 0
+    },
+    "UseDsp": {
+      "type": ["integer", "null"],
+      "description": "Единый идентификатор DSP, который будет использоваться для маршрутизации uplinks-сообщений в этом шаблоне (FK to ServiceProvider)."
+    },
+    "MessageType": {
+      "type": ["string", "null"],
+      "maxLength": 1024,
+      "description": "Тип сообщения."
+    },
+    "TemplateDescription": {
+      "type": ["string", "null"],
+      "description": "Описание шаблона."
+    },
+    "Aircraft types": {
+      "type": "array",
+      "minItems": 0,
+      "description": "Типы ВС для идентификации сообщений (FK на AircraftType).",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "Long registration": {
+      "type": "array",
+      "minItems": 0,
+      "description": "Регистрационные номера ВС для идентификации сообщений (FK на Aircraft).",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "Users": {
+      "type": "array",
+      "minItems": 0,
+      "description": "Идентификаторы пользователей, с которых приходят сообщения (FK на Users).",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "Records": {
+      "type": "array",
+      "description": "Записи.",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "properties": {
+          "RecId": {
+            "type": "integer",
+            "description": "Идентификатор записи."
+          },
+          "TemplateId": {
+            "type": "integer",
+            "default": 0,
+            "description": "Идентификатор шаблона, к которому относится запись (FK на Template)."
+          },
+          "RecName": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Имя записи.",
+            "pattern": "^[^@{}<>'%,;|\"\\[\\]][^{}<>'%,;|\"\\[\\]]*$"
+          },
+          "BlockStartId": {
+            "type": ["string", "null"],
+            "maxLength": 50,
+            "description": "Символы начала блока."
+          },
+          "BlockEndId1": {
+            "type": ["string", "null"],
+            "maxLength": 50,
+            "description": "Символы 1 окончания блока."
+          },
+          "BlockEndId2": {
+            "type": ["string", "null"],
+            "maxLength": 50,
+            "description": "Символы 2 окончания блока."
+          },
+          "BlockEndId3": {
+            "type": ["string", "null"],
+            "maxLength": 50,
+            "description": "Символы 3 окончания блока."
+          },
+          "UntilEnd": {
+            "type": "boolean",
+            "default": false,
+            "description": "Блок до конца файла."
+          },
+          "RecStartId": {
+            "type": ["string","null"],
+            "maxLength": 50,
+            "description": "Символы начала записей."
+          },
+          "Offset": {
+            "type": "integer",
+            "default": 0,
+            "description": "Отступ для начала блока."
+          },
+          "Length": {
+            "type": "integer",
+            "default": 0,
+            "description": "Длина записи."
+          },
+          "Delimiter": {
+            "type": ["string", "null"],
+            "maxLength": 50,
+            "description": "Разделитель для блоков."
+          },
+          "DelOccurrence": {
+            "type": "integer",
+            "default": 0,
+            "description": "Число вхождений разделителя, после которых размещается блок."
+          },
+          "RecOccurrence": {
+            "type": "integer",
+            "default": 0,
+            "description": "Число вхождений разделителя, после которых размещается запись."
+          },
+          "RecSeparator": {
+            "type": ["string", "null"],
+            "maxLength": 50,
+            "description": "Разделитель для записей."
+          },
+          "EndOffset": {
+            "type": "integer",
+            "default": 0,
+            "description": "Отступ для конца блока."
+          }
+        },
+        "required": [
+          "RecId",
+          "TemplateId",
+          "RecName",
+          "UntilEnd",
+          "Offset",
+          "Length",
+          "DelOccurrence",
+          "RecOccurrence",
+          "EndOffset"
+        ]
+      }
+    },
+    "Fields": {
+      "type": "array",
+      "minItems": 0,
+      "description": "Поля.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "TemplateFieldId": {
+            "type": "integer",
+            "description": "Идентификатор поля."
+          },
+          "TemplateId": {
+            "type": "integer",
+            "default": 0,
+            "description": "Идентификатор шаблона, к которому относится поле (FK на Template)."
+          },
+          "FieldTypeId": {
+            "type": "integer",
+            "default": 0,
+            "description": "Тип поля (FK на FieldType)."
+          },
+          "FieldName": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Название поля.",
+            "pattern": "^[^@{}<>'%,;|\"\\[\\]][^{}<>'%,;|\"\\[\\]]*$"
+          },
+          "PositionId": {
+            "type": "integer",
+            "default": 1,
+            "enum": [0, 1, 2],
+            "description": "Тип размещения поля (1 = Free Text, 2 = TE Line)."
+          },
+          "Mandatory": {
+            "type": "boolean",
+            "default": false,
+            "description": "Обязательное поле."
+          },
+          "DataFormatId": {
+            "type": "integer",
+            "default": 0,
+            "description": "Формат поля (FK на DataFormat)."
+          },
+          "Delimiter": {
+            "type": ["string", "null"],
+            "maxLength": 50,
+            "description": "Разделитель для полей."
+          },
+          "DelOccurrence": {
+            "type": "integer",
+            "default": 0,
+            "description": "Число вхождений разделителя, после которых размещается поле."
+          },
+          "StartId": {
+            "type": ["string", "null"],
+            "maxLength": 50,
+            "description": "Символы начала поля."
+          },
+          "EndId1": {
+            "type": ["string", "null"],
+            "maxLength": 50,
+            "description": "Символы 1 окончания поля."
+          },
+          "EndId2": {
+            "type": ["string", "null"],
+            "maxLength": 50,
+            "description": "Символы 2 окончания поля."
+          },
+          "EndId3": {
+            "type": ["string", "null"],
+            "maxLength": 50,
+            "description": "Символы 3 окончания поля."
+          },
+          "UntilEnd": {
+            "type": "boolean",
+            "default": false,
+            "description": "Поле до конца файла."
+          },
+          "Offset": {
+            "type": "integer",
+            "default": 0,
+            "description": "Отступ для начала поля."
+          },
+          "Length": {
+            "type": "integer",
+            "default": 0,
+            "description": "Длина поля."
+          },
+          "LookupTableId": {
+            "type": "integer",
+            "default": 0,
+            "description": "Таблица подстановки (FK на LookupTable)."
+          },
+          "RecId": {
+            "type": "integer",
+            "default": 0,
+            "description": "Идентификатор записи, в которой находится поле (FK на TemplateRecord)."
+          },
+          "DynRoutId": {
+            "type": "integer",
+            "default": 0,
+            "enum": [0, 1, 2, 3, 4],
+            "description": "Динамическая дистрибьюция (значения 0-none, 1-Local User, 2-Email, 3-Lotus Notes, 4-Type B)."
+          },
+          "NormalValHigh": {
+            "type": "number",
+            "default": 0.0,
+            "description": "Верхнее нормальное ограничение на метрическое поле."
+          },
+          "NormalValLow": {
+            "type": "number",
+            "default": 0.0,
+            "description": "Нижнее нормальное ограничение на метрическое поле."
+          },
+          "AbnormalValHigh": {
+            "type": "number",
+            "default": 0.0,
+            "description": "Максимальное ограничение на метрическое поле."
+          },
+          "AbnormalValLow": {
+            "type": "number",
+            "default": 0.0,
+            "description": "Минимальное ограничение на метрическое поле."
+          },
+          "FieldOrder": {
+            "type": "integer",
+            "default": 0,
+            "description": "Порядок полей при создании."
+          },
+          "UnitId": {
+            "type": "integer",
+            "default": 0,
+            "description": "Единицы измерения (в зависимости от типа поля)."
+          },
+          "UnitMultiplier": {
+            "type": "number",
+            "default": 1,
+            "description": "Множитель для единиц измерения."
+          },
+          "EndOffset": {
+            "type": "integer",
+            "default": 0,
+            "description": "Отступ для конца поля."
+          },
+          "UseLookupTableToConvertValues": {
+            "type": "boolean",
+            "default": false,
+            "description": "Замена значения поля по таблице подстановки"
+          },
+          "UseLookupTableForDistributionCriteria": {
+            "type": "boolean",
+            "default": false,
+            "description": "Использование значения из таблицы подстановки при определении дополнительного критерия для распределения сообщений."
+          }
+        },
+        "required": [
+          "TemplateFieldId",
+          "TemplateId",
+          "FieldTypeId",
+          "FieldName",
+          "PositionId",
+          "Mandatory",
+          "DataFormatId",
+          "DelOccurrence",
+          "UntilEnd",
+          "Offset",
+          "Length",
+          "LookupTableId",
+          "RecId",
+          "DynRoutId",
+          "NormalValHigh",
+          "NormalValLow",
+          "AbnormalValHigh",
+          "AbnormalValLow",
+          "FieldOrder",
+          "UnitId",
+          "UnitMultiplier",
+          "EndOffset",
+          "UseLookupTableToConvertValues",
+          "UseLookupTableForDistributionCriteria"
+        ]
+      }
+    }
+  },
+  "required": [
+    "TemplateId",
+    "MsgCategory",
+    "Source",
+    "Type",
+    "TemplateName",
+    "Parent",
+    "Active",
+    "Specificity",
+    "Owner",
+    "Is620Format",
+    "AutoReplyTemplate",
+    "SMI",
+    "Priority",
+    "OOOIType",
+    "AutoAck",
+    "WaitHoldStageId",
+    "WaitHoldTime",
+    "Validity",
+    "MaxWaitHoldTime",
+    "SendWaitingUplinks",
+    "TrimCrLf",
+    "StopHoldPeriod",
+    "StartHoldPeriod",
+    "HoldPriority",
+    "AllowMultiDistribToSameUser",
+    "WaitHoldType",
+    "Records",
+    "Fields"
+  ]
+}
